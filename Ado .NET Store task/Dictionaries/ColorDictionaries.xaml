@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <LinearGradientBrush x:Key="DeepSkyBlueAndWhite">
+        <GradientStop Color="DeepSkyBlue" Offset="0"></GradientStop>
+        <GradientStop Color="White" Offset="1"></GradientStop>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="DarkBlue" Color="DarkBlue"></SolidColorBrush>
+    <SolidColorBrush x:Key="DeepSkyBlue" Color="DeepSkyBlue"></SolidColorBrush>
+    <SolidColorBrush x:Key="White" Color="White"></SolidColorBrush>
+    <SolidColorBrush x:Key="Blue" Color="Blue"></SolidColorBrush>
+    <SolidColorBrush x:Key="Black" Color="Black"></SolidColorBrush>
+</ResourceDictionary>
