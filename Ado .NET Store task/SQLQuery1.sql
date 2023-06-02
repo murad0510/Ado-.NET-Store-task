@@ -16,7 +16,6 @@ CREATE TABLE Product(
 [CategoriesId] INT FOREIGN KEY REFERENCES Categories(Id)
 )
 
-
 GO
 
 
