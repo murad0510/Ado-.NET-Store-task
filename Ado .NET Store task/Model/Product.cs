@@ -12,5 +12,6 @@ namespace Ado.NET_Store_task.Model
         public string Name { get; set; }
         public Decimal Prices { get; set; }
         public int CategoryId { get; set; }
+        public string Image { get; set; }
     }
 }

@@ -30,9 +30,7 @@ namespace Ado.NET_Store_task
         public MainWindow()
         {
             InitializeComponent();
-            App.MainWindowGrid = myGrid;
             App.MyPanel = MyPanel;
-
             MainWindowViewModel mwvm = new MainWindowViewModel();
             this.DataContext = mwvm;
         }

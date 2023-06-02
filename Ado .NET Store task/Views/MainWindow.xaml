@@ -7,10 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="myGrid">
-        <ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1">
             <WrapPanel Name="MyPanel" Orientation="Horizontal">
 
             </WrapPanel>
         </ScrollViewer>
+
+
+        <Image Grid.Row="0" Source="/Images/store symbol.jpg"  Margin="-500,0,0,0"></Image>
+
+        <ComboBox ItemsSource="{Binding CategoriesComboBoxItemSource}" Width="200" Height="40"></ComboBox>
+
+
     </Grid>
 </Window>

@@ -121,7 +121,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\semeckali.png" />
+    <Resource Include="Images\store symbol.jpg" />
     <Content Include="SQLQuery1.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

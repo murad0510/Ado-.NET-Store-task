@@ -27,21 +27,21 @@ namespace Ado.NET_Store_task.Views.UserControls
             InitializeComponent();
             FoodsUserControlViewModel fucvm = new FoodsUserControlViewModel();
 
-            OpenFileDialog open = new OpenFileDialog();
+            //OpenFileDialog open = new OpenFileDialog();
 
-            if (open.ShowDialog() == true)
-            {
-                try
-                {
-                    BitmapImage bitmap = new BitmapImage(new Uri(open.FileName));
-                    previre.Source = bitmap;
-                }
-                catch (Exception)
-                {
+            //if (open.ShowDialog() == true)
+            //{
+            //    try
+            //    {
+            //        BitmapImage bitmap = new BitmapImage(new Uri(open.FileName));
+            //        previre.Source = bitmap;
+            //    }
+            //    catch (Exception)
+            //    {
 
-                    throw;
-                }
-            }
+            //        throw;
+            //    }
+            //}
 
             this.DataContext = fucvm;
         }

@@ -31,6 +31,5 @@ namespace Ado.NET_Store_task.ViewModel
             get { return foodPrice; }
             set { foodPrice = value; OnPropertyChanged(); }
         }
-
     }
 }
