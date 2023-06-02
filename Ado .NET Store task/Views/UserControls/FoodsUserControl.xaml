@@ -13,9 +13,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Name="previre" Width="250" Height="150"></Image>
-        
-        
-            <TextBlock Grid.Row="1" Name="my" Margin="0,0,0,35" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="250" Height="60" TextWrapping="Wrap" TextOptions.TextFormattingMode="Ideal" FontSize="20" Background="LightSkyBlue"  FontWeight="ExtraBlack" Canvas.Bottom="110"></TextBlock>
+
+        <TextBlock Text="{Binding FoodName}" Grid.Row="1" Name="my" Margin="0,0,0,35" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="250" Height="60" TextWrapping="Wrap" TextOptions.TextFormattingMode="Ideal" FontSize="20" Background="LightSkyBlue"  FontWeight="ExtraBlack" Canvas.Bottom="110"></TextBlock>
 
             <Label Grid.Row="1" Margin="0,60,0,0" Content="{Binding FoodPrice,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Canvas.Left="25" VerticalAlignment="Center" Width="200" Height="30" TextOptions.TextFormattingMode="Ideal" FontSize="20" Background="Black"  FontWeight="ExtraBlack" Canvas.Bottom="70"></Label>
 
