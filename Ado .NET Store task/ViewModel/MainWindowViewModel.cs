@@ -60,6 +60,7 @@ namespace Ado.NET_Store_task.ViewModel
                     foodUsercontrolViewModel.Foodname = products[i].Name;
                     foodUsercontrolViewModel.FoodPrice = products[i].Prices;
                     cs.Margin = new Thickness(left, up, right, down);
+                    cs.DataContext = foodUsercontrolViewModel;
                     App.MyPanel.Children.Add(cs);
                     //MessageBox.Show($"{App.MainWindowGrid.Children.Count}");
                 }
