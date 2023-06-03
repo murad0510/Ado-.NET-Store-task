@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Ado.NET_Store_task.Repostories
 {
@@ -67,13 +69,38 @@ namespace Ado.NET_Store_task.Repostories
             }
         }
 
-        public void InsertProduct()
+        public void DeleteProduct(int id)
         {
-            using (var conn=new SqlConnection())
+            using (var conn = new SqlConnection())
             {
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
                 conn.Open();
 
+                SqlTransaction sqlTransaction = null;
+
+                sqlTransaction = conn.BeginTransaction();
+
+                //SqlCommand command = new SqlCommand("INSERT INTO Product(Name) VALUES(@name)", conn);
+                SqlCommand command = new SqlCommand("DELETE FROM Product WHERE Id=@id");
+                command.Transaction = sqlTransaction;
+
+                SqlParameter parameterName = new SqlParameter();
+                parameterName.ParameterName = "@id";
+                parameterName.SqlDbType=SqlDbType.Int;
+                parameterName.Value = id;
+
+                command.Parameters.Add(parameterName);
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                    sqlTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}");
+                    sqlTransaction.Rollback();
+                }
             }
         }
     }
