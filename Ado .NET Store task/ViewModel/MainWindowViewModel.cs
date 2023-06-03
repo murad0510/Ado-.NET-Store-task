@@ -1,5 +1,6 @@
 ﻿using Ado.NET_Store_task.Commands;
 using Ado.NET_Store_task.Model;
+using Ado.NET_Store_task.Repostories;
 using Ado.NET_Store_task.Views.UserControls;
 using Microsoft.Win32;
 using System;
@@ -12,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 
 namespace Ado.NET_Store_task.ViewModel
 {
@@ -20,7 +22,7 @@ namespace Ado.NET_Store_task.ViewModel
 
         //public RelayCommand CategoriesComboBox { get; set; }
 
-        private ObservableCollection<Category> categoriesComboBox=new ObservableCollection<Category>();
+        private ObservableCollection<Category> categoriesComboBox = new ObservableCollection<Category>();
 
         public ObservableCollection<Category> CategoriesComboBoxItemSource
         {
@@ -28,36 +30,30 @@ namespace Ado.NET_Store_task.ViewModel
             set { categoriesComboBox = value; OnPropertyChanged(); }
         }
 
+        private Category category1;
+
+        public Category SelectedItem
+        {
+            get { return category1; }
+            set { category1 = value; OnPropertyChanged(); }
+        }
+
+        public void GetAll()
+        {
+
+        }
+
+
+        public RelayCommand SelectionChanged { get; set; }
+        Repo repo;
+
         public MainWindowViewModel()
         {
             List<Product> products = new List<Product>();
             List<Category> categories = new List<Category>();
 
-            using (var conn = new SqlConnection())
-            {
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
-                conn.Open();
-
-                var query = "SELECT * FROM Product";
-
-                SqlDataReader reader = null;
-
-                using (var command = new SqlCommand(query, conn))
-                {
-                    reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        Product product = new Product();
-                        product.Id = (int)reader[0];
-                        product.Name = reader[1].ToString();
-                        product.Prices = (decimal)reader[2];
-                        product.CategoryId = (int)reader[3];
-                        product.Image = reader[4].ToString();
-                        products.Add(product);
-                    }
-                }
-            }
+            repo = new Repo();
+            repo.GetAllProducts(products);
 
             FoodsUserControl cs;
             FoodsUserControlViewModel foodUsercontrolViewModel;
@@ -77,33 +73,29 @@ namespace Ado.NET_Store_task.ViewModel
                 App.MyPanel.Children.Add(cs);
             }
 
-            using (var conn = new SqlConnection())
-            {
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
-                conn.Open();
-
-                var query = "SELECT * FROM Categories";
-
-                SqlDataReader reader = null;
-
-                using (var command = new SqlCommand(query, conn))
-                {
-                    reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        Category category = new Category();
-                        category.Id = (int)reader[0];
-                        category.Name = reader[1].ToString();
-                        categories.Add(category);
-                    }
-                }
-            }
-
             for (int i = 0; i < categories.Count; i++)
             {
                 CategoriesComboBoxItemSource.Add(categories[i]);
             }
+
+            SelectionChanged = new RelayCommand((obj) =>
+            {
+                App.MyPanel.Children.Clear();
+                for (int i = 0; i < products.Count; i++)
+                {
+                    if (products[i].CategoryId == SelectedItem.Id)
+                    {
+                        cs = new FoodsUserControl();
+                        foodUsercontrolViewModel = new FoodsUserControlViewModel();
+                        foodUsercontrolViewModel.Foodname = products[i].Name;
+                        foodUsercontrolViewModel.FoodPrice = products[i].Prices;
+                        foodUsercontrolViewModel.Image = products[i].Image;
+                        cs.Margin = new Thickness(left, up, right, down);
+                        cs.DataContext = foodUsercontrolViewModel;
+                        App.MyPanel.Children.Add(cs);
+                    }
+                }
+            });
 
         }
     }

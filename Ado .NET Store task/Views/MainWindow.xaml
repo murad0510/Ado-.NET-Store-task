@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Ado.NET_Store_task"
+        xmlns:local="clr-namespace:Ado.NET_Store_task" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="myGrid">
@@ -12,15 +12,19 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="1">
-            <WrapPanel Name="MyPanel" Orientation="Horizontal">
-
-            </WrapPanel>
+            <WrapPanel Name="MyPanel" Orientation="Horizontal"></WrapPanel>
         </ScrollViewer>
 
 
         <Image Grid.Row="0" Source="/Images/store symbol.jpg"  Margin="-500,0,0,0"></Image>
 
-        <ComboBox ItemsSource="{Binding CategoriesComboBoxItemSource}" Width="200" Height="40"></ComboBox>
+        <ComboBox ItemsSource="{Binding CategoriesComboBoxItemSource}" SelectedItem="{Binding SelectedItem}" Width="200" Height="40">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionChanged}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
 
 
     </Grid>
