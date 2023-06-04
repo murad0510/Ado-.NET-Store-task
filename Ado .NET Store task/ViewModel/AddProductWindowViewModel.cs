@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Ado.NET_Store_task.ViewModel
 {
@@ -31,7 +32,7 @@ namespace Ado.NET_Store_task.ViewModel
         {
             AddProduct = new RelayCommand((obj) =>
             {
-
+                MessageBox.Show("a");
             });
         }
 

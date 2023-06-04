@@ -1,6 +1,7 @@
 ﻿using Ado.NET_Store_task.Commands;
 using Ado.NET_Store_task.Model;
 using Ado.NET_Store_task.Repostories;
+using Ado.NET_Store_task.Views;
 using Ado.NET_Store_task.Views.UserControls;
 using Microsoft.Win32;
 using System;
@@ -125,7 +126,8 @@ namespace Ado.NET_Store_task.ViewModel
 
             AddProduct = new RelayCommand((obj) =>
             {
-
+                AddProductUserControl addProduct = new AddProductUserControl();
+                addProduct.ShowDialog();
             });
 
         }

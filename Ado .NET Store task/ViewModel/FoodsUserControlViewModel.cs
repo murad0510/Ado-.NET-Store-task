@@ -107,7 +107,7 @@ namespace Ado.NET_Store_task.ViewModel
             UpdateProduct = new RelayCommand((obj) =>
             {
                 ProductUpdateUserControl productUpdate = new ProductUpdateUserControl();
-                ProductUpdateUserControlViewModel productUpdateUserControl = new ProductUpdateUserControlViewModel();
+                ProductUpdateWindowViewModel productUpdateUserControl = new ProductUpdateWindowViewModel();
 
                 var category = repo.SeacrhCategory(Category);
 

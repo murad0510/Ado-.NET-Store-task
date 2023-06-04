@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Ado.NET_Store_task.ViewModel
 {
-    public class ProductUpdateUserControlViewModel : BaseViewModel
+    public class ProductUpdateWindowViewModel : BaseViewModel
     {
         public RelayCommand UpdateProduct { get; set; }
 
@@ -53,7 +53,7 @@ namespace Ado.NET_Store_task.ViewModel
             set { newfoodprice = value; OnPropertyChanged(); }
         }
 
-        public ProductUpdateUserControlViewModel()
+        public ProductUpdateWindowViewModel()
         {
             UpdateProduct = new RelayCommand((obj) =>
             {

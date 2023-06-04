@@ -16,15 +16,15 @@ using System.Windows.Shapes;
 namespace Ado.NET_Store_task.Views
 {
     /// <summary>
-    /// Interaction logic for ProductUpdateUserControl.xaml
+    /// Interaction logic for AddProductUserControl.xaml
     /// </summary>
-    public partial class ProductUpdateUserControl : Window
+    public partial class AddProductUserControl : Window
     {
-        public ProductUpdateUserControl()
+        public AddProductUserControl()
         {
             InitializeComponent();
-            ProductUpdateUserControlViewModel productUpdate = new ProductUpdateUserControlViewModel();
-            this.DataContext = productUpdate;
+            AddProductUserControlViewModel addProduct = new AddProductUserControlViewModel();
+            this.DataContext = addProduct;
         }
     }
 }

@@ -67,16 +67,16 @@
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Repostories\Repo.cs" />
-    <Compile Include="ViewModel\AddProductUserControlViewModel.cs" />
+    <Compile Include="ViewModel\AddProductWindowViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\FoodsUserControlViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\ProductUpdateUserControlViewModel.cs" />
-    <Compile Include="Views\AddProductUserControl.xaml.cs">
-      <DependentUpon>AddProductUserControl.xaml</DependentUpon>
+    <Compile Include="ViewModel\ProductUpdateWindowViewModel.cs" />
+    <Compile Include="Views\AddProductWindow.xaml.cs">
+      <DependentUpon>AddProductWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProductUpdateUserControl.xaml.cs">
-      <DependentUpon>ProductUpdateUserControl.xaml</DependentUpon>
+    <Compile Include="Views\ProductUpdateWindow.xaml.cs">
+      <DependentUpon>ProductUpdateWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\FoodsUserControl.xaml.cs">
       <DependentUpon>FoodsUserControl.xaml</DependentUpon>
@@ -93,7 +93,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddProductUserControl.xaml">
+    <Page Include="Views\AddProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,7 +109,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\ProductUpdateUserControl.xaml">
+    <Page Include="Views\ProductUpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

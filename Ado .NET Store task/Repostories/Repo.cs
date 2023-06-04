@@ -203,6 +203,42 @@ namespace Ado.NET_Store_task.Repostories
             }
         }
 
+        //public void AddProduct(string name,decimal price,string category)
+        //{
+        //    using (var conn = new SqlConnection())
+        //    {
+        //        conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+        //        conn.Open();
+
+        //        SqlTransaction sqlTransaction = null;
+
+        //        sqlTransaction = conn.BeginTransaction();
+
+        //        //SqlCommand command = new SqlCommand("INSERT INTO Product(Name) VALUES(@name)", conn);
+        //        SqlCommand command = new SqlCommand("INSERT INTO Product(Name,Price,CategoriesId) VALUES(@name,@price,@category)", conn);
+        //        command.Transaction = sqlTransaction;
+
+        //        SqlParameter parameterName = new SqlParameter();
+        //        parameterName.ParameterName = "@id";
+        //        parameterName.SqlDbType = SqlDbType.Int;
+        //        parameterName.Value = id;
+
+        //        command.Parameters.Add(parameterName);
+
+        //        try
+        //        {
+        //            command.ExecuteNonQuery();
+        //            sqlTransaction.Commit();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show($"{ex.Message}");
+        //            sqlTransaction.Rollback();
+        //        }
+        //    }
+        //}
+
+
         public void UpdateProduct(string oldname, string newname, decimal price)
         {
             using (var conn = new SqlConnection())
