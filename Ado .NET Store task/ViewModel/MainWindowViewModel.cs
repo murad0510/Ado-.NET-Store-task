@@ -21,6 +21,7 @@ namespace Ado.NET_Store_task.ViewModel
     {
 
         //public RelayCommand CategoriesComboBox { get; set; }
+        public RelayCommand AddProduct { get; set; }
 
         private ObservableCollection<Category> categoriesComboBox = new ObservableCollection<Category>();
 
@@ -38,6 +39,15 @@ namespace Ado.NET_Store_task.ViewModel
             set { category1 = value; OnPropertyChanged(); }
         }
 
+        private int selectedindex;
+
+        public int SelectedIndex
+        {
+            get { return selectedindex; }
+            set { selectedindex = value; OnPropertyChanged(); }
+        }
+
+
         public void GetAll()
         {
 
@@ -53,7 +63,14 @@ namespace Ado.NET_Store_task.ViewModel
             List<Category> categories = new List<Category>();
 
             repo = new Repo();
+
             repo.GetAllProducts(products);
+
+            repo.GetAllCategories(categories);
+
+            repo.AddPanelUserControl();
+
+            SelectedIndex = repo.SeacrhCategoryName("Butun mehsullar").Id;
 
             FoodsUserControl cs;
             FoodsUserControlViewModel foodUsercontrolViewModel;
@@ -61,17 +78,19 @@ namespace Ado.NET_Store_task.ViewModel
             int up = 10;
             int right = 0;
             int down = 70;
-            for (int i = 0; i < products.Count; i++)
-            {
-                cs = new FoodsUserControl();
-                foodUsercontrolViewModel = new FoodsUserControlViewModel();
-                foodUsercontrolViewModel.Foodname = products[i].Name;
-                foodUsercontrolViewModel.FoodPrice = products[i].Prices;
-                foodUsercontrolViewModel.Image = products[i].Image;
-                cs.Margin = new Thickness(left, up, right, down);
-                cs.DataContext = foodUsercontrolViewModel;
-                App.MyPanel.Children.Add(cs);
-            }
+            //for (int i = 0; i < products.Count; i++)
+            //{
+            //    cs = new FoodsUserControl();
+            //    foodUsercontrolViewModel = new FoodsUserControlViewModel();
+            //    foodUsercontrolViewModel.Foodname = products[i].Name;
+            //    foodUsercontrolViewModel.FoodPrice = products[i].Prices;
+            //    foodUsercontrolViewModel.Image = products[i].Image;
+            //    foodUsercontrolViewModel.Category = products[i].CategoryId;
+
+            //    cs.Margin = new Thickness(left, up, right, down);
+            //    cs.DataContext = foodUsercontrolViewModel;
+            //    App.MyPanel.Children.Add(cs);
+            //}
 
             for (int i = 0; i < categories.Count; i++)
             {
@@ -81,20 +100,32 @@ namespace Ado.NET_Store_task.ViewModel
             SelectionChanged = new RelayCommand((obj) =>
             {
                 App.MyPanel.Children.Clear();
+                products.Clear();
+                repo.GetAllProducts(products);
+
+                var category = repo.SeacrhCategoryName("Butun mehsullar");
+
                 for (int i = 0; i < products.Count; i++)
                 {
-                    if (products[i].CategoryId == SelectedItem.Id)
+                    if (products[i].CategoryId == SelectedItem.Id || SelectedItem.Name == category.Name)
                     {
                         cs = new FoodsUserControl();
                         foodUsercontrolViewModel = new FoodsUserControlViewModel();
                         foodUsercontrolViewModel.Foodname = products[i].Name;
                         foodUsercontrolViewModel.FoodPrice = products[i].Prices;
                         foodUsercontrolViewModel.Image = products[i].Image;
+                        foodUsercontrolViewModel.Category = products[i].CategoryId;
+
                         cs.Margin = new Thickness(left, up, right, down);
                         cs.DataContext = foodUsercontrolViewModel;
                         App.MyPanel.Children.Add(cs);
                     }
                 }
+            });
+
+            AddProduct = new RelayCommand((obj) =>
+            {
+
             });
 
         }

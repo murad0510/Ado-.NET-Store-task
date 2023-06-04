@@ -1,6 +1,18 @@
-﻿using Ado.NET_Store_task.Commands;
+﻿//using Ado.NET_Store_task.Commands;
+//using Ado.NET_Store_task.Model;
+//using Ado.NET_Store_task.Repostories;
+//using Ado.NET_Store_task.Views.UserControls;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using System.Windows;
+
+using Ado.NET_Store_task.Commands;
 using Ado.NET_Store_task.Model;
 using Ado.NET_Store_task.Repostories;
+using Ado.NET_Store_task.Views;
 using Ado.NET_Store_task.Views.UserControls;
 using System;
 using System.Collections.Generic;
@@ -8,12 +20,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace Ado.NET_Store_task.ViewModel
 {
     public class FoodsUserControlViewModel : BaseViewModel
     {
         public RelayCommand Delete { get; set; }
+        public RelayCommand UpdateProduct { get; set; }
 
         private string foodName;
 
@@ -39,6 +53,15 @@ namespace Ado.NET_Store_task.ViewModel
             set { foodPrice = value; OnPropertyChanged(); }
         }
 
+        private int category;
+
+        public int Category
+        {
+            get { return category; }
+            set { category = value; OnPropertyChanged(); }
+        }
+
+
         public FoodsUserControlViewModel()
         {
             List<Product> products = new List<Product>();
@@ -51,27 +74,52 @@ namespace Ado.NET_Store_task.ViewModel
                 {
                     if (products[i].Name == Foodname)
                     {
-                        repo.DeleteProduct(products[i].CategoryId);
-                        FoodsUserControl cs;
-                        FoodsUserControlViewModel foodUsercontrolViewModel;
-                        int left = 70;
-                        int up = 10;
-                        int right = 0;
-                        int down = 70;
-                        for (int k = 0; k < products.Count; k++)
+                        DialogResult dialog = System.Windows.Forms.MessageBox.Show("Are you sure you want to delete the product?", "Delete product", MessageBoxButtons.YesNo);
+                        if (dialog == DialogResult.Yes)
                         {
-                            cs = new FoodsUserControl();
-                            foodUsercontrolViewModel = new FoodsUserControlViewModel();
-                            foodUsercontrolViewModel.Foodname = products[k].Name;
-                            foodUsercontrolViewModel.FoodPrice = products[k].Prices;
-                            foodUsercontrolViewModel.Image = products[k].Image;
-                            cs.Margin = new Thickness(left, up, right, down);
-                            cs.DataContext = foodUsercontrolViewModel;
-                            App.MyPanel.Children.Add(cs);
+                            repo.DeleteProduct(products[i].Id);
+                            products.Clear();
+                            repo.GetAllProducts(products);
+                            App.MyPanel.Children.Clear();
+                            FoodsUserControl cs;
+                            FoodsUserControlViewModel foodUsercontrolViewModel;
+                            int left = 70;
+                            int up = 10;
+                            int right = 0;
+                            int down = 70;
+                            for (int k = 0; k < products.Count; k++)
+                            {
+                                cs = new FoodsUserControl();
+                                foodUsercontrolViewModel = new FoodsUserControlViewModel();
+                                foodUsercontrolViewModel.Foodname = products[k].Name;
+                                foodUsercontrolViewModel.FoodPrice = products[k].Prices;
+                                foodUsercontrolViewModel.Image = products[k].Image;
+                                foodUsercontrolViewModel.Category = products[k].CategoryId;
+                                cs.Margin = new Thickness(left, up, right, down);
+                                cs.DataContext = foodUsercontrolViewModel;
+                                App.MyPanel.Children.Add(cs);
+                            }
                         }
-                        break;
                     }
                 }
+            });
+
+            UpdateProduct = new RelayCommand((obj) =>
+            {
+                ProductUpdateUserControl productUpdate = new ProductUpdateUserControl();
+                ProductUpdateUserControlViewModel productUpdateUserControl = new ProductUpdateUserControlViewModel();
+
+                var category = repo.SeacrhCategory(Category);
+
+                productUpdateUserControl.FoodName = Foodname;
+
+                productUpdateUserControl.FoodPrice = FoodPrice;
+
+                productUpdateUserControl.FoodCategory = category.Name;
+
+                productUpdate.DataContext = productUpdateUserControl;
+
+                productUpdate.ShowDialog();
             });
         }
     }

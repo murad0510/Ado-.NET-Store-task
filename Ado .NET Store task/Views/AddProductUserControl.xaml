@@ -1,0 +1,26 @@
+﻿<Window x:Class="Ado.NET_Store_task.Views.AddProductUserControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ado.NET_Store_task.Views"
+        mc:Ignorable="d"
+        Title="AddProductUserControl" Height="300" Width="600" ResizeMode="NoResize">
+    <Grid>
+        <Canvas>
+            <Label Content="Product name" FontSize="20" Canvas.Top="15" Canvas.Left="100"></Label>
+            <TextBox Text="{Binding FoodName}" Width="250" BorderBrush="Black" BorderThickness="3" Height="40" Canvas.Top="50" Canvas.Left="105"></TextBox>
+
+            <Label Content="Product prices" FontSize="20" Canvas.Top="130" Canvas.Right="35" Canvas.Left="100"></Label>
+            <TextBox  Text="{Binding FoodPrice}" Width="200" BorderBrush="Black" BorderThickness="3" Height="40" Canvas.Top="165" Canvas.Left="105"></TextBox>
+
+            <Button Command="{Binding AddProduct}" Width="230" Height="100" Content="Add product" FontWeight="UltraBlack" FontSize="25" FontFamily="Comic Sans MS" Canvas.Bottom="40" Background="DeepSkyBlue" Canvas.Right="10" Canvas.Top="168">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Canvas>
+    </Grid>
+</Window>

@@ -21,7 +21,7 @@ GO
 
 
 INSERT INTO Categories([Name])
-VALUES('Murəbbəler'),('Şakaladlar'),('Çörəklər'),('Ədviyyatlar'),('Quş məhsulları')
+VALUES('Murəbbəler'),('Şakaladlar'),('Çörəklər'),('Ədviyyatlar'),('Quş məhsulları'),('Butun mehsullar')
 GO
 INSERT INTO Product([Name],[CategoriesId],[Prices],[ImagePath])
 VALUES('Şaftalı mürəbbəsi',1,4.50,'https://res.cloudinary.com/dqv4xvz1o/image/upload/v1685705773/Saftali_murebbesi_w01wm8.jpg'),

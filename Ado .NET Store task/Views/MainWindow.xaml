@@ -18,7 +18,7 @@
 
         <Image Grid.Row="0" Source="/Images/store symbol.jpg"  Margin="-500,0,0,0"></Image>
 
-        <ComboBox ItemsSource="{Binding CategoriesComboBoxItemSource}" SelectedItem="{Binding SelectedItem}" Width="200" Height="40">
+        <ComboBox SelectedIndex="{Binding SelectedIndex}" ItemsSource="{Binding CategoriesComboBoxItemSource}" SelectedItem="{Binding SelectedItem}" Width="200" Height="40">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionChanged}"></i:InvokeCommandAction>
@@ -26,6 +26,13 @@
             </i:Interaction.Triggers>
         </ComboBox>
 
+        <Button Command="{Binding AddProduct}" Width="200" Height="40" Margin="500,0,0,0" Content="Add product" Background="DeepSkyBlue" FontSize="20"  >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"/>
+                </Style>
+            </Button.Resources>
+        </Button>
 
     </Grid>
 </Window>
