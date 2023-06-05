@@ -3,6 +3,7 @@ using Ado.NET_Store_task.ViewModel;
 using Ado.NET_Store_task.Views.UserControls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,7 +17,7 @@ namespace Ado.NET_Store_task.Repostories
 {
     public class Repo
     {
-        public void GetAllProducts(List<Product> products)
+        public void GetAllProducts(ObservableCollection<Product> products)
         {
             using (var conn = new SqlConnection())
             {
@@ -46,7 +47,7 @@ namespace Ado.NET_Store_task.Repostories
         }
 
 
-        public void GetAllCategories(List<Category> categories)
+        public void GetAllCategories(ObservableCollection<Category> categories)
         {
             using (var conn = new SqlConnection())
             {
@@ -179,7 +180,7 @@ namespace Ado.NET_Store_task.Repostories
 
         public void AddPanelUserControl()
         {
-            List<Product> products = new List<Product>();
+            ObservableCollection<Product> products = new ObservableCollection<Product>();
             GetAllProducts(products);
             App.MyPanel.Children.Clear();
             FoodsUserControl cs;
@@ -203,40 +204,51 @@ namespace Ado.NET_Store_task.Repostories
             }
         }
 
-        //public void AddProduct(string name,decimal price,string category)
-        //{
-        //    using (var conn = new SqlConnection())
-        //    {
-        //        conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
-        //        conn.Open();
+        public void AddProduct(string name, decimal price, int categoryId)
+        {
+            using (var conn = new SqlConnection())
+            {
+                conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+                conn.Open();
 
-        //        SqlTransaction sqlTransaction = null;
+                SqlTransaction sqlTransaction = null;
 
-        //        sqlTransaction = conn.BeginTransaction();
+                sqlTransaction = conn.BeginTransaction();
 
-        //        //SqlCommand command = new SqlCommand("INSERT INTO Product(Name) VALUES(@name)", conn);
-        //        SqlCommand command = new SqlCommand("INSERT INTO Product(Name,Price,CategoriesId) VALUES(@name,@price,@category)", conn);
-        //        command.Transaction = sqlTransaction;
+                SqlCommand command = new SqlCommand("INSERT INTO Product(Name,Prices,CategoriesId) VALUES(@name,@price,@categoryId)", conn);
+                command.Transaction = sqlTransaction;
 
-        //        SqlParameter parameterName = new SqlParameter();
-        //        parameterName.ParameterName = "@id";
-        //        parameterName.SqlDbType = SqlDbType.Int;
-        //        parameterName.Value = id;
+                SqlParameter parameterCategoryId = new SqlParameter();
+                parameterCategoryId.ParameterName = "@categoryId";
+                parameterCategoryId.SqlDbType = SqlDbType.Int;
+                parameterCategoryId.Value = categoryId;
 
-        //        command.Parameters.Add(parameterName);
+                SqlParameter parameterName = new SqlParameter();
+                parameterName.ParameterName = "@name";
+                parameterName.SqlDbType = SqlDbType.NVarChar;
+                parameterName.Value = name;
 
-        //        try
-        //        {
-        //            command.ExecuteNonQuery();
-        //            sqlTransaction.Commit();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show($"{ex.Message}");
-        //            sqlTransaction.Rollback();
-        //        }
-        //    }
-        //}
+                SqlParameter parameterPrice = new SqlParameter();
+                parameterPrice.ParameterName = "@price";
+                parameterPrice.SqlDbType = SqlDbType.Money;
+                parameterPrice.Value = price;
+
+                command.Parameters.Add(parameterName);
+                command.Parameters.Add(parameterCategoryId);
+                command.Parameters.Add(parameterPrice);
+
+                try
+                {
+                    command.ExecuteNonQuery();
+                    sqlTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"{ex.Message}");
+                    sqlTransaction.Rollback();
+                }
+            }
+        }
 
 
         public void UpdateProduct(string oldname, string newname, decimal price)

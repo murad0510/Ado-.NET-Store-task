@@ -60,8 +60,8 @@ namespace Ado.NET_Store_task.ViewModel
 
         public MainWindowViewModel()
         {
-            List<Product> products = new List<Product>();
-            List<Category> categories = new List<Category>();
+            ObservableCollection<Product> products = new ObservableCollection<Product>();
+            ObservableCollection<Category> categories = new ObservableCollection<Category>();
 
             repo = new Repo();
 
@@ -71,7 +71,7 @@ namespace Ado.NET_Store_task.ViewModel
 
             repo.AddPanelUserControl();
 
-            SelectedIndex = repo.SeacrhCategoryName("Butun mehsullar").Id;
+             SelectedIndex = repo.SeacrhCategoryName("Butun mehsullar").Id - 1;
 
             FoodsUserControl cs;
             FoodsUserControlViewModel foodUsercontrolViewModel;

@@ -16,6 +16,7 @@ using Ado.NET_Store_task.Views;
 using Ado.NET_Store_task.Views.UserControls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,7 +65,7 @@ namespace Ado.NET_Store_task.ViewModel
 
         public FoodsUserControlViewModel()
         {
-            List<Product> products = new List<Product>();
+            ObservableCollection<Product> products = new ObservableCollection<Product>();
             Repo repo = new Repo();
             repo.GetAllProducts(products);
 

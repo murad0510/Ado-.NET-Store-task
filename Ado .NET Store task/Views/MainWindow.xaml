@@ -18,7 +18,7 @@
 
         <Image Grid.Row="0" Source="/Images/store symbol.jpg"  Margin="-500,0,0,0"></Image>
 
-        <ComboBox SelectedIndex="{Binding SelectedIndex}" ItemsSource="{Binding CategoriesComboBoxItemSource}" SelectedItem="{Binding SelectedItem}" Width="200" Height="40">
+        <ComboBox ItemsSource="{Binding CategoriesComboBoxItemSource}" SelectedItem="{Binding SelectedItem}"  SelectedIndex="{Binding SelectedIndex}"  Width="200" Height="40">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SelectionChanged}"></i:InvokeCommandAction>
