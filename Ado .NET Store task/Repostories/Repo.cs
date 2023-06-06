@@ -17,8 +17,36 @@ namespace Ado.NET_Store_task.Repostories
 {
     public class Repo
     {
-        public void GetAllProducts(ObservableCollection<Product> products)
+        public async void GetAllProducts(ObservableCollection<Product> products)
         {
+            //using (var conn = new SqlConnection())
+            //{
+            //    conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+            //    conn.Open();
+
+            //    var query = "SELECT * FROM Product";
+
+            //    SqlDataReader reader = null;
+
+            //    using (var command = new SqlCommand(query, conn))
+            //    {
+            //        reader = command.ExecuteReader();
+
+            //        while (reader.Read())
+            //        {
+            //            Product product = new Product();
+            //            product.Id = (int)reader[0];
+            //            product.Name = reader[1].ToString();
+            //            product.Prices = (decimal)reader[2];
+            //            product.CategoryId = (int)reader[3];
+            //            product.Image = reader[4].ToString();
+            //            products.Add(product);
+            //        }
+            //    }
+            //}
+
+
+
             using (var conn = new SqlConnection())
             {
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
@@ -26,13 +54,14 @@ namespace Ado.NET_Store_task.Repostories
 
                 var query = "SELECT * FROM Product";
 
-                SqlDataReader reader = null;
+                SqlCommand command = conn.CreateCommand();
+                command.CommandText = query;
 
-                using (var command = new SqlCommand(query, conn))
+                //SqlDataReader reader = null;
+
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    reader = command.ExecuteReader();
-
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         Product product = new Product();
                         product.Id = (int)reader[0];
@@ -47,8 +76,32 @@ namespace Ado.NET_Store_task.Repostories
         }
 
 
-        public void GetAllCategories(ObservableCollection<Category> categories)
+        public async void GetAllCategories(ObservableCollection<Category> categories)
         {
+            //using (var conn = new SqlConnection())
+            //{
+            //    conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+            //    conn.Open();
+
+            //    var query = "SELECT * FROM Categories";
+
+            //    SqlDataReader reader = null;
+
+            //    using (var command = new SqlCommand(query, conn))
+            //    {
+            //        reader = command.ExecuteReader();
+
+            //        while (reader.Read())
+            //        {
+            //            Category category = new Category();
+            //            category.Id = (int)reader[0];
+            //            category.Name = reader[1].ToString();
+            //            categories.Add(category);
+            //        }
+            //    }
+            //}
+
+
             using (var conn = new SqlConnection())
             {
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
@@ -56,13 +109,15 @@ namespace Ado.NET_Store_task.Repostories
 
                 var query = "SELECT * FROM Categories";
 
-                SqlDataReader reader = null;
+                SqlCommand command = conn.CreateCommand();
+                command.CommandText = query;
 
-                using (var command = new SqlCommand(query, conn))
+                //SqlDataReader reader = null;
+
+                using (var reader =await command.ExecuteReaderAsync())
                 {
-                    reader = command.ExecuteReader();
 
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         Category category = new Category();
                         category.Id = (int)reader[0];
