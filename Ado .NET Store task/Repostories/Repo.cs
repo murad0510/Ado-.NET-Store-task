@@ -17,7 +17,7 @@ namespace Ado.NET_Store_task.Repostories
 {
     public class Repo
     {
-        public async void GetAllProducts(ObservableCollection<Product> products)
+        public async Task GetAllProducts(ObservableCollection<Product> products)
         {
             //using (var conn = new SqlConnection())
             //{
@@ -76,7 +76,7 @@ namespace Ado.NET_Store_task.Repostories
         }
 
 
-        public async void GetAllCategories(ObservableCollection<Category> categories)
+        public async Task GetAllCategories(ObservableCollection<Category> categories)
         {
             //using (var conn = new SqlConnection())
             //{
@@ -233,10 +233,10 @@ namespace Ado.NET_Store_task.Repostories
             return category;
         }
 
-        public void AddPanelUserControl()
+        public async Task AddPanelUserControl()
         {
             ObservableCollection<Product> products = new ObservableCollection<Product>();
-            GetAllProducts(products);
+            await GetAllProducts(products);
             App.MyPanel.Children.Clear();
             FoodsUserControl cs;
             FoodsUserControlViewModel foodUsercontrolViewModel;

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Ado.NET_Store_task.ViewModel
 {
@@ -49,9 +50,12 @@ namespace Ado.NET_Store_task.ViewModel
         }
 
 
-        public void GetAll()
+        public async void GetAll(ObservableCollection<Product> products, ObservableCollection<Category> categories)
         {
-
+            repo = new Repo();
+            await repo.GetAllProducts(products);
+            await repo.GetAllCategories(categories);
+            await repo.AddPanelUserControl();
         }
 
 
@@ -63,15 +67,9 @@ namespace Ado.NET_Store_task.ViewModel
             ObservableCollection<Product> products = new ObservableCollection<Product>();
             ObservableCollection<Category> categories = new ObservableCollection<Category>();
 
-            repo = new Repo();
+            GetAll(products,categories);
 
-            repo.GetAllProducts(products);
-
-            repo.GetAllCategories(categories);
-
-            repo.AddPanelUserControl();
-
-             SelectedIndex = repo.SeacrhCategoryName("Butun mehsullar").Id - 1;
+            SelectedIndex = repo.SeacrhCategoryName("Butun mehsullar").Id - 1;
 
             FoodsUserControl cs;
             FoodsUserControlViewModel foodUsercontrolViewModel;
