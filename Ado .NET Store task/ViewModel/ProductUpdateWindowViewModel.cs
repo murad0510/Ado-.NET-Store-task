@@ -53,6 +53,13 @@ namespace Ado.NET_Store_task.ViewModel
             set { newfoodprice = value; OnPropertyChanged(); }
         }
 
+        public async void Update()
+        {
+            Repo repo = new Repo();
+            await repo.UpdateProduct(FoodName, NewFoodName, NewFoodPrice);
+            await repo.AddPanelUserControl();
+        }
+
         public ProductUpdateWindowViewModel()
         {
             UpdateProduct = new RelayCommand((obj) =>
@@ -63,9 +70,7 @@ namespace Ado.NET_Store_task.ViewModel
                 }
                 else if (NewFoodPrice != 0 && NewFoodName != string.Empty)
                 {
-                    Repo repo = new Repo();
-                    repo.UpdateProduct(FoodName, NewFoodName, NewFoodPrice);
-                    repo.AddPanelUserControl();
+                    Update();
                     MessageBox.Show("Update was successful");
                 }
             });

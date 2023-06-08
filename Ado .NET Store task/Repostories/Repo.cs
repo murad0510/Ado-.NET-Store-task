@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Media3D;
 
 namespace Ado.NET_Store_task.Repostories
 {
@@ -19,6 +20,7 @@ namespace Ado.NET_Store_task.Repostories
     {
         public async Task GetAllProducts(ObservableCollection<Product> products)
         {
+
             //using (var conn = new SqlConnection())
             //{
             //    conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
@@ -54,13 +56,12 @@ namespace Ado.NET_Store_task.Repostories
 
                 var query = "SELECT * FROM Product";
 
-                SqlCommand command = conn.CreateCommand();
-                command.CommandText = query;
+                SqlDataReader reader = null;
 
-                //SqlDataReader reader = null;
-
-                using (var reader = await command.ExecuteReaderAsync())
+                using (var command = new SqlCommand(query, conn))
                 {
+                    reader = await command.ExecuteReaderAsync();
+
                     while (await reader.ReadAsync())
                     {
                         Product product = new Product();
@@ -74,6 +75,89 @@ namespace Ado.NET_Store_task.Repostories
                 }
             }
         }
+
+        public async Task Products(Category SelectedItem, Category category)
+        {
+            ObservableCollection<Product> products = new ObservableCollection<Product>();
+            await GetAllProducts(products);
+
+            FoodsUserControl cs;
+            FoodsUserControlViewModel foodUsercontrolViewModel;
+            int left = 70;
+            int up = 10;
+            int right = 0;
+            int down = 70;
+            for (int i = 0; i < products.Count; i++)
+            {
+                if (products[i].CategoryId == SelectedItem.Id || SelectedItem.Name == category.Name)
+                {
+                    //SelectionChangeCategoriesComboBox(products[i].Name, products[i].Prices, products[i].Image, products[i].CategoryId);
+                    cs = new FoodsUserControl();
+                    foodUsercontrolViewModel = new FoodsUserControlViewModel();
+                    foodUsercontrolViewModel.Foodname = products[i].Name;
+                    foodUsercontrolViewModel.FoodPrice = products[i].Prices;
+                    foodUsercontrolViewModel.Image = products[i].Image;
+                    foodUsercontrolViewModel.Category = products[i].CategoryId;
+
+                    cs.Margin = new Thickness(left, up, right, down);
+                    cs.DataContext = foodUsercontrolViewModel;
+                    App.MyPanel.Children.Add(cs);
+                }
+            }
+        }
+
+
+        //public async Task GetAllCategories(ObservableCollection<Category> categories)
+        //{
+        //    //using (var conn = new SqlConnection())
+        //    //{
+        //    //    conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+        //    //    conn.Open();
+
+        //    //    var query = "SELECT * FROM Categories";
+
+        //    //    SqlDataReader reader = null;
+
+        //    //    using (var command = new SqlCommand(query, conn))
+        //    //    {
+        //    //        reader = command.ExecuteReader();
+
+        //    //        while (reader.Read())
+        //    //        {
+        //    //            Category category = new Category();
+        //    //            category.Id = (int)reader[0];
+        //    //            category.Name = reader[1].ToString();
+        //    //            categories.Add(category);
+        //    //        }
+        //    //    }
+        //    //}
+
+        //    using (var conn = new SqlConnection())
+        //    {
+        //        conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+        //        conn.Open();
+
+        //        var query = "SELECT * FROM Categories";
+
+        //        SqlDataReader reader = null;
+
+        //        using (var command = new SqlCommand(query, conn))
+        //        {
+        //            reader = await command.ExecuteReaderAsync();
+        //            while (await reader.ReadAsync())
+        //            {
+        //                Category category = new Category();
+        //                category.Id = (int)reader[0];
+        //                category.Name = reader[1].ToString();
+        //                categories.Add(category);
+        //            }
+        //        }
+        //    }
+        //}
+
+
+
+
 
 
         public async Task GetAllCategories(ObservableCollection<Category> categories)
@@ -101,7 +185,6 @@ namespace Ado.NET_Store_task.Repostories
             //    }
             //}
 
-
             using (var conn = new SqlConnection())
             {
                 conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
@@ -109,13 +192,11 @@ namespace Ado.NET_Store_task.Repostories
 
                 var query = "SELECT * FROM Categories";
 
-                SqlCommand command = conn.CreateCommand();
-                command.CommandText = query;
+                SqlDataReader reader = null;
 
-                //SqlDataReader reader = null;
-
-                using (var reader =await command.ExecuteReaderAsync())
+                using (var command = new SqlCommand(query, conn))
                 {
+                    reader = await command.ExecuteReaderAsync();
 
                     while (await reader.ReadAsync())
                     {
@@ -128,7 +209,7 @@ namespace Ado.NET_Store_task.Repostories
             }
         }
 
-        public void DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
             using (var conn = new SqlConnection())
             {
@@ -137,10 +218,15 @@ namespace Ado.NET_Store_task.Repostories
 
                 SqlTransaction sqlTransaction = null;
 
+                var query = "DELETE FROM Product WHERE Id=@id";
+
+                SqlCommand command = conn.CreateCommand();
+                command.CommandText = query;
+
                 sqlTransaction = conn.BeginTransaction();
 
                 //SqlCommand command = new SqlCommand("INSERT INTO Product(Name) VALUES(@name)", conn);
-                SqlCommand command = new SqlCommand("DELETE FROM Product WHERE Id=@id", conn);
+
                 command.Transaction = sqlTransaction;
 
                 SqlParameter parameterName = new SqlParameter();
@@ -152,7 +238,7 @@ namespace Ado.NET_Store_task.Repostories
 
                 try
                 {
-                    command.ExecuteNonQuery();
+                    await command.ExecuteNonQueryAsync();
                     sqlTransaction.Commit();
                 }
                 catch (Exception ex)
@@ -173,20 +259,17 @@ namespace Ado.NET_Store_task.Repostories
 
                 var query = "SELECT * FROM Categories WHERE Id=@category";
 
-                SqlDataReader reader = null;
+                SqlCommand command = conn.CreateCommand();
+                command.CommandText = query;
 
-                using (var command = new SqlCommand(query, conn))
+                SqlParameter parameter = new SqlParameter();
+                parameter.ParameterName = "@category";
+                parameter.SqlDbType = SqlDbType.Int;
+                parameter.Value = catego;
+
+                command.Parameters.Add(parameter);
+                using (var reader = command.ExecuteReader())
                 {
-
-                    SqlParameter parameter = new SqlParameter();
-                    parameter.ParameterName = "@category";
-                    parameter.SqlDbType = SqlDbType.Int;
-                    parameter.Value = catego;
-
-                    command.Parameters.Add(parameter);
-
-                    reader = command.ExecuteReader();
-
                     while (reader.Read())
                     {
                         category.Id = (int)reader[0];
@@ -196,6 +279,25 @@ namespace Ado.NET_Store_task.Repostories
             }
 
             return category;
+        }
+
+        public void SelectionChangeCategoriesComboBox(string name, decimal price, string image, int categoryId)
+        {
+            FoodsUserControl cs;
+            FoodsUserControlViewModel foodUsercontrolViewModel;
+            int left = 70;
+            int up = 10;
+            int right = 0;
+            int down = 70;
+            cs = new FoodsUserControl();
+            foodUsercontrolViewModel = new FoodsUserControlViewModel();
+            foodUsercontrolViewModel.Foodname = name;
+            foodUsercontrolViewModel.FoodPrice = price;
+            foodUsercontrolViewModel.Image = image;
+            foodUsercontrolViewModel.Category = categoryId;
+            cs.Margin = new Thickness(left, up, right, down);
+            cs.DataContext = foodUsercontrolViewModel;
+            App.MyPanel.Children.Add(cs);
         }
 
         public Category SeacrhCategoryName(string name)
@@ -233,6 +335,19 @@ namespace Ado.NET_Store_task.Repostories
             return category;
         }
 
+        public async Task AddCategoriesCombobox(ObservableCollection<Category> CategoriesComboBoxItemSource)
+        {
+            ObservableCollection<Category> categories = new ObservableCollection<Category>();
+            await GetAllCategories(categories);
+
+            //CategoriesComboBoxItemSource = categories;
+
+            for (int i = 0; i < categories.Count; i++)
+            {
+                CategoriesComboBoxItemSource.Add(categories[i]);
+            }
+        }
+
         public async Task AddPanelUserControl()
         {
             ObservableCollection<Product> products = new ObservableCollection<Product>();
@@ -259,7 +374,7 @@ namespace Ado.NET_Store_task.Repostories
             }
         }
 
-        public void AddProduct(string name, decimal price, int categoryId)
+        public async Task AddProduct(string name, decimal price, int categoryId)
         {
             using (var conn = new SqlConnection())
             {
@@ -294,7 +409,7 @@ namespace Ado.NET_Store_task.Repostories
 
                 try
                 {
-                    command.ExecuteNonQuery();
+                    await command.ExecuteNonQueryAsync();
                     sqlTransaction.Commit();
                 }
                 catch (Exception ex)
@@ -306,7 +421,7 @@ namespace Ado.NET_Store_task.Repostories
         }
 
 
-        public void UpdateProduct(string oldname, string newname, decimal price)
+        public async Task UpdateProduct(string oldname, string newname, decimal price)
         {
             using (var conn = new SqlConnection())
             {
@@ -315,6 +430,10 @@ namespace Ado.NET_Store_task.Repostories
 
                 var query = "UPDATE Product SET Name=@newname , Prices=@price WHERE Name=@oldname";
 
+
+                //SqlCommand command = conn.CreateCommand();
+                //command.CommandText = query;
+
                 SqlTransaction sqlTransaction = null;
 
                 sqlTransaction = conn.BeginTransaction();
@@ -322,6 +441,7 @@ namespace Ado.NET_Store_task.Repostories
                 using (var command = new SqlCommand(query, conn))
                 {
                     command.Transaction = sqlTransaction;
+
                     SqlParameter parameterName = new SqlParameter();
                     parameterName.ParameterName = "@oldname";
                     parameterName.Value = oldname;
@@ -343,7 +463,7 @@ namespace Ado.NET_Store_task.Repostories
 
                     try
                     {
-                        command.ExecuteNonQuery();
+                        await command.ExecuteNonQueryAsync();
                         sqlTransaction.Commit();
                     }
                     catch (Exception ex)
@@ -351,7 +471,6 @@ namespace Ado.NET_Store_task.Repostories
                         MessageBox.Show($"{ex.Message}");
                         sqlTransaction.Rollback();
                     }
-
                 }
             }
         }

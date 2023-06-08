@@ -51,45 +51,79 @@ namespace Ado.NET_Store_task.ViewModel
 
         Repo repo;
 
+        //public async void GetCategories(ObservableCollection<Category> categories)
+        //{
+        //    repo= new Repo();
+        //}
+
+        public async void GetProducts(ObservableCollection<Product> products)
+        {
+            repo= new Repo();
+            await repo.GetAllProducts(products);
+        }
+
+        public async void AddProducts()
+        {
+            repo= new Repo();
+            await repo.AddProduct(FoodName, FoodPrice, SelectedItem.Id);
+        }
+
+        public async void AdPanel()
+        {
+            repo = new Repo();
+
+            await repo.AddPanelUserControl();
+        }
+
+        public async void GetCategories(ObservableCollection<Category> categories)
+        {
+            repo = new Repo();
+
+            await repo.GetAllCategories(categories);
+        }
+
         public AddProductUserControlViewModel()
         {
             ObservableCollection<Category> categories = new ObservableCollection<Category>();
             ObservableCollection<Product> products = new ObservableCollection<Product>();
 
             repo = new Repo();
-            repo.GetAllCategories(categories);
+            GetCategories(categories);
+            
+            //GetCategories(categories);
             Categories = categories;
 
             AddProduct = new RelayCommand((obj) =>
             {
                 if (FoodName != null && FoodPrice != 0)
                 {
-                    repo.AddProduct(FoodName, FoodPrice, SelectedItem.Id);
+                    AddProducts();
                     products.Clear();
-                    repo.GetAllProducts(products);
+                    GetProducts(products);
                     App.MyPanel.Children.Clear();
-                    FoodsUserControl cs;
-                    FoodsUserControlViewModel foodUsercontrolViewModel;
-                    int left = 70;
-                    int up = 10;
-                    int right = 0;
-                    int down = 70;
-                    for (int k = 0; k < products.Count; k++)
-                    {
-                        cs = new FoodsUserControl();
-                        foodUsercontrolViewModel = new FoodsUserControlViewModel();
-                        foodUsercontrolViewModel.Foodname = products[k].Name;
-                        foodUsercontrolViewModel.FoodPrice = products[k].Prices;
-                        foodUsercontrolViewModel.Image = products[k].Image;
-                        foodUsercontrolViewModel.Category = products[k].CategoryId;
-                        cs.Margin = new Thickness(left, up, right, down);
-                        cs.DataContext = foodUsercontrolViewModel;
-                        App.MyPanel.Children.Add(cs);
-                    }
+                    AdPanel();
+                    //FoodsUserControl cs;
+                    //FoodsUserControlViewModel foodUsercontrolViewModel;
+                    //int left = 70;
+                    //int up = 10;
+                    //int right = 0;
+                    //int down = 70;
+                    //for (int k = 0; k < products.Count; k++)
+                    //{
+                    //    cs = new FoodsUserControl();
+                    //    foodUsercontrolViewModel = new FoodsUserControlViewModel();
+                    //    foodUsercontrolViewModel.Foodname = products[k].Name;
+                    //    foodUsercontrolViewModel.FoodPrice = products[k].Prices;
+                    //    foodUsercontrolViewModel.Image = products[k].Image;
+                    //    foodUsercontrolViewModel.Category = products[k].CategoryId;
+                    //    cs.Margin = new Thickness(left, up, right, down);
+                    //    cs.DataContext = foodUsercontrolViewModel;
+                    //    App.MyPanel.Children.Add(cs);
+                    //}
                     MessageBox.Show($"Product added successfully");
                 }
                 else
-                { 
+                {
                     MessageBox.Show("You type any information incorrectly !!!");
                 }
             });
