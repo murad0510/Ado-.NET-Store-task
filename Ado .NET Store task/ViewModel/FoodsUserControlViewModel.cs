@@ -12,6 +12,7 @@
 using Ado.NET_Store_task.Commands;
 using Ado.NET_Store_task.Model;
 using Ado.NET_Store_task.Repostories;
+using Ado.NET_Store_task.Services;
 using Ado.NET_Store_task.Views;
 using Ado.NET_Store_task.Views.UserControls;
 using System;
@@ -64,13 +65,13 @@ namespace Ado.NET_Store_task.ViewModel
 
         Repo repo;
 
-        public async void GetAllProducts(ObservableCollection<Product> products)
+        public async void GetAllProducts(ObservableCollection<Products> products)
         {
             repo = new Repo();
             await repo.GetAllProducts(products);
         }
 
-        public async void DeleteProduct(ObservableCollection<Product> products,int i)
+        public async void DeleteProduct(ObservableCollection<Products> products,int i)
         {
             repo = new Repo();
 
@@ -86,7 +87,7 @@ namespace Ado.NET_Store_task.ViewModel
 
         public FoodsUserControlViewModel()
         {
-            ObservableCollection<Product> products = new ObservableCollection<Product>();
+            ObservableCollection<Products> products = new ObservableCollection<Products>();
 
             GetAllProducts(products);
 
@@ -131,8 +132,9 @@ namespace Ado.NET_Store_task.ViewModel
             {
                 ProductUpdateUserControl productUpdate = new ProductUpdateUserControl();
                 ProductUpdateWindowViewModel productUpdateUserControl = new ProductUpdateWindowViewModel();
+                CategoryServices categoryServices= new CategoryServices();
 
-                var category = repo.SeacrhCategory(Category);
+                var category = categoryServices.SeacrhCategory(Category);
 
                 productUpdateUserControl.FoodName = Foodname;
 

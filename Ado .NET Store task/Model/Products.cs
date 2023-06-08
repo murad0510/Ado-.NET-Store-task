@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace Ado.NET_Store_task.Model
 {
-    public class Category
+    public class Products
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Name}";
-        }
+        public Decimal Prices { get; set; }
+        public int CategoryId { get; set; }
+        public string Image { get; set; }
     }
 }

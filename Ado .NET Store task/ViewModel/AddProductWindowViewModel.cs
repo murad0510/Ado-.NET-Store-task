@@ -33,17 +33,17 @@ namespace Ado.NET_Store_task.ViewModel
             set { foodPrice = value; OnPropertyChanged(); }
         }
 
-        private ObservableCollection<Category> categories;
+        private ObservableCollection<Categories> categories;
 
-        public ObservableCollection<Category> Categories
+        public ObservableCollection<Categories> Categories
         {
             get { return categories; }
             set { categories = value; }
         }
 
-        private Category selectedItem;
+        private Categories selectedItem;
 
-        public Category SelectedItem
+        public Categories SelectedItem
         {
             get { return selectedItem; }
             set { selectedItem = value; OnPropertyChanged(); }
@@ -56,7 +56,7 @@ namespace Ado.NET_Store_task.ViewModel
         //    repo= new Repo();
         //}
 
-        public async void GetProducts(ObservableCollection<Product> products)
+        public async void GetProducts(ObservableCollection<Products> products)
         {
             repo= new Repo();
             await repo.GetAllProducts(products);
@@ -75,7 +75,7 @@ namespace Ado.NET_Store_task.ViewModel
             await repo.AddPanelUserControl();
         }
 
-        public async void GetCategories(ObservableCollection<Category> categories)
+        public async void GetCategories(ObservableCollection<Categories> categories)
         {
             repo = new Repo();
 
@@ -84,8 +84,8 @@ namespace Ado.NET_Store_task.ViewModel
 
         public AddProductUserControlViewModel()
         {
-            ObservableCollection<Category> categories = new ObservableCollection<Category>();
-            ObservableCollection<Product> products = new ObservableCollection<Product>();
+            ObservableCollection<Categories> categories = new ObservableCollection<Categories>();
+            ObservableCollection<Products> products = new ObservableCollection<Products>();
 
             repo = new Repo();
             GetCategories(categories);

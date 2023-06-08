@@ -75,6 +75,8 @@ namespace Ado.NET_Store_task.ViewModel
                 }
             });
         }
-
     }
+
+
+
 }

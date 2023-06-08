@@ -1,6 +1,7 @@
 ﻿using Ado.NET_Store_task.Commands;
 using Ado.NET_Store_task.Model;
 using Ado.NET_Store_task.Repostories;
+using Ado.NET_Store_task.Services;
 using Ado.NET_Store_task.Views;
 using Ado.NET_Store_task.Views.UserControls;
 using Microsoft.Win32;
@@ -25,17 +26,17 @@ namespace Ado.NET_Store_task.ViewModel
         //public RelayCommand CategoriesComboBox { get; set; }
         public RelayCommand AddProduct { get; set; }
 
-        private ObservableCollection<Category> categoriesComboBox = new ObservableCollection<Category>();
+        private ObservableCollection<Categories> categoriesComboBox = new ObservableCollection<Categories>();
 
-        public ObservableCollection<Category> CategoriesComboBoxItemSource
+        public ObservableCollection<Categories> CategoriesComboBoxItemSource
         {
             get { return categoriesComboBox; }
             set { categoriesComboBox = value; OnPropertyChanged(); }
         }
 
-        private Category category1;
+        private Categories category1;
 
-        public Category SelectedItem
+        public Categories SelectedItem
         {
             get { return category1; }
             set { category1 = value; OnPropertyChanged(); }
@@ -50,21 +51,22 @@ namespace Ado.NET_Store_task.ViewModel
         }
 
 
-        public async void GetAll(ObservableCollection<Product> products, ObservableCollection<Category> categories)
+
+        public async void GetAll(ObservableCollection<Products> products, ObservableCollection<Categories> categories)
         {
             repo = new Repo();
             //await repo.GetAllProducts(products);
             await repo.AddPanelUserControl();
         }
 
-        public async void GetAllProducts(ObservableCollection<Product> products, Category category)
+        public async void GetAllProducts(Categories SelectedItem, Categories category)
         {
             repo = new Repo();
 
-            await repo.Products(SelectedItem, category);
+            await repo.AllProducts(SelectedItem, category);
         }
 
-        public async void GetAllCategories(ObservableCollection<Category> categories)
+        public async void GetAllCategories(ObservableCollection<Categories> categories)
         {
             repo = new Repo();
 
@@ -78,12 +80,13 @@ namespace Ado.NET_Store_task.ViewModel
 
         public MainWindowViewModel()
         {
-            ObservableCollection<Product> products = new ObservableCollection<Product>();
-            ObservableCollection<Category> categories = new ObservableCollection<Category>();
+            ObservableCollection<Products> products = new ObservableCollection<Products>();
+            ObservableCollection<Categories> categories = new ObservableCollection<Categories>();
+            CategoryServices categoryServices= new CategoryServices();
 
             GetAll(products, categories);
 
-            SelectedIndex = repo.SeacrhCategoryName("Butun mehsullar").Id - 1;
+            SelectedIndex = categoryServices.SeacrhCategoryName("Butun mehsullar").Id - 1;
 
             GetAllCategories(CategoriesComboBoxItemSource);
 
@@ -119,11 +122,12 @@ namespace Ado.NET_Store_task.ViewModel
                 App.MyPanel.Children.Clear();
                 products.Clear();
                 //GetAllProducts(products);
+                CategoryServices services= new CategoryServices();
 
-                var category = repo.SeacrhCategoryName("Butun mehsullar");
+                var category = services.SeacrhCategoryName("Butun mehsullar");
 
-                //repo = new Repo();
-                GetAllProducts(products, category);
+                repo = new Repo();
+                GetAllProducts(SelectedItem, category);
 
                 //for (int i = 0; i < products.Count; i++)
                 //{

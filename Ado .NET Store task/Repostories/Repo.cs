@@ -18,7 +18,7 @@ namespace Ado.NET_Store_task.Repostories
 {
     public class Repo
     {
-        public async Task GetAllProducts(ObservableCollection<Product> products)
+        public async Task GetAllProducts(ObservableCollection<Products> products)
         {
 
             //using (var conn = new SqlConnection())
@@ -64,7 +64,7 @@ namespace Ado.NET_Store_task.Repostories
 
                     while (await reader.ReadAsync())
                     {
-                        Product product = new Product();
+                        Products product = new Products();
                         product.Id = (int)reader[0];
                         product.Name = reader[1].ToString();
                         product.Prices = (decimal)reader[2];
@@ -76,9 +76,9 @@ namespace Ado.NET_Store_task.Repostories
             }
         }
 
-        public async Task Products(Category SelectedItem, Category category)
+        public async Task AllProducts(Categories SelectedItem, Categories category)
         {
-            ObservableCollection<Product> products = new ObservableCollection<Product>();
+            ObservableCollection<Products> products = new ObservableCollection<Products>();
             await GetAllProducts(products);
 
             FoodsUserControl cs;
@@ -156,11 +156,7 @@ namespace Ado.NET_Store_task.Repostories
         //}
 
 
-
-
-
-
-        public async Task GetAllCategories(ObservableCollection<Category> categories)
+        public async Task GetAllCategories(ObservableCollection<Categories> categories)
         {
             //using (var conn = new SqlConnection())
             //{
@@ -200,7 +196,7 @@ namespace Ado.NET_Store_task.Repostories
 
                     while (await reader.ReadAsync())
                     {
-                        Category category = new Category();
+                        Categories category = new Categories();
                         category.Id = (int)reader[0];
                         category.Name = reader[1].ToString();
                         categories.Add(category);
@@ -249,95 +245,95 @@ namespace Ado.NET_Store_task.Repostories
             }
         }
 
-        public Category SeacrhCategory(int catego)
+        //public Categories SeacrhCategor(int catego)
+        //{
+        //    Categories category = new Categories();
+        //    using (var conn = new SqlConnection())
+        //    {
+        //        conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+        //        conn.Open();
+
+        //        var query = "SELECT * FROM Categories WHERE Id=@category";
+
+        //        SqlCommand command = conn.CreateCommand();
+        //        command.CommandText = query;
+
+        //        SqlParameter parameter = new SqlParameter();
+        //        parameter.ParameterName = "@category";
+        //        parameter.SqlDbType = SqlDbType.Int;
+        //        parameter.Value = catego;
+
+        //        command.Parameters.Add(parameter);
+        //        using (var reader = command.ExecuteReader())
+        //        {
+        //            while (reader.Read())
+        //            {
+        //                category.Id = (int)reader[0];
+        //                category.Name = reader[1].ToString();
+        //            }
+        //        }
+        //    }
+
+        //    return category;
+        //}
+
+        //public void SelectionChangeCategoriesComboBo(string name, decimal price, string image, int categoryId)
+        //{
+        //    FoodsUserControl cs;
+        //    FoodsUserControlViewModel foodUsercontrolViewModel;
+        //    int left = 70;
+        //    int up = 10;
+        //    int right = 0;
+        //    int down = 70;
+        //    cs = new FoodsUserControl();
+        //    foodUsercontrolViewModel = new FoodsUserControlViewModel();
+        //    foodUsercontrolViewModel.Foodname = name;
+        //    foodUsercontrolViewModel.FoodPrice = price;
+        //    foodUsercontrolViewModel.Image = image;
+        //    foodUsercontrolViewModel.Category = categoryId;
+        //    cs.Margin = new Thickness(left, up, right, down);
+        //    cs.DataContext = foodUsercontrolViewModel;
+        //    App.MyPanel.Children.Add(cs);
+        //}
+
+        //public Categories SeacrhCategoryNam(string name)
+        //{
+        //    Categories category = new Categories();
+        //    using (var conn = new SqlConnection())
+        //    {
+        //        conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+        //        conn.Open();
+
+        //        var query = "SELECT * FROM Categories WHERE Name=@name";
+
+        //        SqlDataReader reader = null;
+
+        //        using (var command = new SqlCommand(query, conn))
+        //        {
+
+        //            SqlParameter parameter = new SqlParameter();
+        //            parameter.ParameterName = "@name";
+        //            parameter.SqlDbType = SqlDbType.NVarChar;
+        //            parameter.Value = name;
+
+        //            command.Parameters.Add(parameter);
+
+        //            reader = command.ExecuteReader();
+
+        //            while (reader.Read())
+        //            {
+        //                category.Id = (int)reader[0];
+        //                category.Name = reader[1].ToString();
+        //            }
+        //        }
+        //    }
+
+        //    return category;
+        //}
+
+        public async Task AddCategoriesCombobox(ObservableCollection<Categories> CategoriesComboBoxItemSource)
         {
-            Category category = new Category();
-            using (var conn = new SqlConnection())
-            {
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
-                conn.Open();
-
-                var query = "SELECT * FROM Categories WHERE Id=@category";
-
-                SqlCommand command = conn.CreateCommand();
-                command.CommandText = query;
-
-                SqlParameter parameter = new SqlParameter();
-                parameter.ParameterName = "@category";
-                parameter.SqlDbType = SqlDbType.Int;
-                parameter.Value = catego;
-
-                command.Parameters.Add(parameter);
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        category.Id = (int)reader[0];
-                        category.Name = reader[1].ToString();
-                    }
-                }
-            }
-
-            return category;
-        }
-
-        public void SelectionChangeCategoriesComboBox(string name, decimal price, string image, int categoryId)
-        {
-            FoodsUserControl cs;
-            FoodsUserControlViewModel foodUsercontrolViewModel;
-            int left = 70;
-            int up = 10;
-            int right = 0;
-            int down = 70;
-            cs = new FoodsUserControl();
-            foodUsercontrolViewModel = new FoodsUserControlViewModel();
-            foodUsercontrolViewModel.Foodname = name;
-            foodUsercontrolViewModel.FoodPrice = price;
-            foodUsercontrolViewModel.Image = image;
-            foodUsercontrolViewModel.Category = categoryId;
-            cs.Margin = new Thickness(left, up, right, down);
-            cs.DataContext = foodUsercontrolViewModel;
-            App.MyPanel.Children.Add(cs);
-        }
-
-        public Category SeacrhCategoryName(string name)
-        {
-            Category category = new Category();
-            using (var conn = new SqlConnection())
-            {
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
-                conn.Open();
-
-                var query = "SELECT * FROM Categories WHERE Name=@name";
-
-                SqlDataReader reader = null;
-
-                using (var command = new SqlCommand(query, conn))
-                {
-
-                    SqlParameter parameter = new SqlParameter();
-                    parameter.ParameterName = "@name";
-                    parameter.SqlDbType = SqlDbType.NVarChar;
-                    parameter.Value = name;
-
-                    command.Parameters.Add(parameter);
-
-                    reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        category.Id = (int)reader[0];
-                        category.Name = reader[1].ToString();
-                    }
-                }
-            }
-
-            return category;
-        }
-
-        public async Task AddCategoriesCombobox(ObservableCollection<Category> CategoriesComboBoxItemSource)
-        {
-            ObservableCollection<Category> categories = new ObservableCollection<Category>();
+            ObservableCollection<Categories> categories = new ObservableCollection<Categories>();
             await GetAllCategories(categories);
 
             //CategoriesComboBoxItemSource = categories;
@@ -350,7 +346,7 @@ namespace Ado.NET_Store_task.Repostories
 
         public async Task AddPanelUserControl()
         {
-            ObservableCollection<Product> products = new ObservableCollection<Product>();
+            ObservableCollection<Products> products = new ObservableCollection<Products>();
             await GetAllProducts(products);
             App.MyPanel.Children.Clear();
             FoodsUserControl cs;
