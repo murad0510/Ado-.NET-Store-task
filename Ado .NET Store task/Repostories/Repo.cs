@@ -83,10 +83,6 @@ namespace Ado.NET_Store_task.Repostories
 
             FoodsUserControl cs;
             FoodsUserControlViewModel foodUsercontrolViewModel;
-            int left = 70;
-            int up = 10;
-            int right = 0;
-            int down = 70;
             for (int i = 0; i < products.Count; i++)
             {
                 if (products[i].CategoryId == SelectedItem.Id || SelectedItem.Name == category.Name)
@@ -99,7 +95,6 @@ namespace Ado.NET_Store_task.Repostories
                     foodUsercontrolViewModel.Image = products[i].Image;
                     foodUsercontrolViewModel.Category = products[i].CategoryId;
 
-                    cs.Margin = new Thickness(left, up, right, down);
                     cs.DataContext = foodUsercontrolViewModel;
                     App.MyPanel.Children.Add(cs);
                 }

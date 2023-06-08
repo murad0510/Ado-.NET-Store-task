@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ado.NET_Store_task.Views.UserControls"
              mc:Ignorable="d" 
-             Width="250" Height="330" Background="Transparent" BorderBrush="Black" BorderThickness="4">
+             Width="250" Height="330" Background="Transparent" BorderBrush="Black" BorderThickness="4" Margin="70,10,0,70">
     <Grid Style="{StaticResource MyLabelAnimation}">
         
         <Grid.RowDefinitions>
